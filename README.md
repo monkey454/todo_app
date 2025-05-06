@@ -30,6 +30,6 @@ _Add screenshots here if available_
    ```bash
    git clone https://github.com/yourusername/flask-todo-app.git
    cd flask-todo-app
-2.**Install virtual environment**
+2. **Install virtual environment**
 ```bash
   .\venv\Scripts\activate
