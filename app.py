@@ -25,8 +25,8 @@ class Todo(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
 
-# with app.app_context():
-# db.create_all()
+with app.app_context():
+db.create_all()
 
 @app.route("/", methods=["GET", "POST"])
 def login():
