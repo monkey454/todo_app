@@ -28,4 +28,6 @@ This app allows users to add, view, update, and delete tasks. It's designed to b
    cd flask-todo-app
 2. **Install virtual environment**
    ```bash
-   .\venv\Scripts\activate
+   python -m venv venv
+   venv/bin/activate    
+
