@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session,flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,7 +12,7 @@ db = SQLAlchemy(app)
 class User(db.Model):
     __tablename__ = 'user'  # Optional but good practice
     user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
@@ -26,7 +26,7 @@ class Todo(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
 
 with app.app_context():
-db.create_all()
+    db.create_all()
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -36,25 +36,47 @@ def login():
         
         user = User.query.filter_by(username=username).first()
 
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.user_id
-            return redirect("/dashboard")
-        else:
-            return redirect("/")  # You can add flash message here if needed
+        if not user:
+            flash("User not found. Please register.", "danger")
+            return redirect("/")
+        
+        if not check_password_hash(user.password, password):
+            flash("Incorrect password. Try again.", "danger")
+            return redirect("/")
+
+        # Success
+        session['user_id'] = user.user_id
+        return redirect("/dashboard")
 
     return render_template("login.html")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         username = request.form["username"]
         email = request.form["email"]
-        password = generate_password_hash(request.form["password"])
-        user = User(username=username, email=email, password=password)
+        password = request.form["password"]
+        # Check if email already exists
+        existing_email = User.query.filter_by(email=email).first()
+        if existing_email:
+            flash("Email already registered. Please login or use a different email.")
+            return redirect("/register")
+            
+
+        # Check if username already exists
+        existing_username = User.query.filter_by(username=username).first()
+        if existing_username:
+            flash("Username already taken. Please choose a different one.")
+            return redirect("/register") 
+
+        # All good, hash password and create user
+        hashed_password = generate_password_hash(password)
+        user = User(username=username, email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         return redirect("/")
-    return render_template("register.html")
+    return render_template("register.html") 
 
 @app.route("/dashboard", methods=['GET', 'POST'])
 def dashboard():
@@ -97,6 +119,7 @@ def Delete(id):
 @app.route("/logout")
 def logout():
     session.pop("user_id", None)
+    flash("Logged-out Successfully!")
     return redirect("/")
 
 if __name__ == "__main__":
