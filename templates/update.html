@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Todo</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #7ec97f;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #2f5d34;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 20px;
+      margin: 0;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      padding: 10px 15px;
+      margin: 5px 0;
+      border-radius: 5px;
+      transition: background 0.3s;
+      display: block;
+    }
+
+    .sidebar a:hover {
+      background-color: #4caf50;
+    }
+
+    .main {
+      flex: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .update-form {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .update-form h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .update-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .update-form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      background: #f0f0f0;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .update-form button {
+      width: 100%;
+      padding: 12px;
+      background: #4caf50;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .update-form button:hover {
+      background: #388e3c;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        overflow: auto;
+      }
+
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+      }
+
+      .sidebar h2 {
+        display: none;
+      }
+
+      .main {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>MyToDo</h2>
+    <a href="/">Home</a>
+    <a href="#">Account</a>
+    <a href="#">Settings</a>
+    <a href="/">Logout</a>
+  </div>
+
+  <div class="main">
+    <div class="update-form">
+      <h2>Update Your Todo</h2>
+      <form action="/update/{{todo.id}}" method="POST">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="{{todo.title}}" required>
+
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" value="{{todo.description}}" required>
+
+        <button type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
