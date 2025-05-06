@@ -20,10 +20,6 @@ This app allows users to add, view, update, and delete tasks. It's designed to b
 - HTML/CSS (basic frontend)
 - Jinja2 (Flask templating)
 
-## 📸 Screenshots
-
-_Add screenshots here if available_
-
 ## 📦 Installation
 
 1. **Clone the repository**  
