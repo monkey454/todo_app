@@ -27,5 +27,5 @@ This app allows users to add, view, update, and delete tasks. It's designed to b
    git clone https://github.com/yourusername/flask-todo-app.git
    cd flask-todo-app
 2. **Install virtual environment**
-```bash
+   ```bash
    .\venv\Scripts\activate
